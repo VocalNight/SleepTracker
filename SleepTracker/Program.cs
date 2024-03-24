@@ -41,18 +41,18 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/tracker", async ( SleepRecordModel item, SleepContext db ) =>
+app.MapPost("/sleepers", async ( SleepRecordModel item, SleepContext db ) =>
 {
     db.SleepRecords.Add(item);
     await db.SaveChangesAsync();
 
-    return (Results.Created($"/tracker/{item.Id}", item));
+    return (Results.Created($"/sleepers/{item.Id}", item));
 });
 
-app.MapGet("/tracker", async ( SleepContext db ) =>
+app.MapGet("/sleepers", async ( SleepContext db ) =>
     await db.SleepRecords.ToListAsync());
 
-app.MapDelete("/tracker/{id}", async ( int id, SleepContext db ) =>
+app.MapDelete("/sleepers/{id}", async ( int id, SleepContext db ) =>
 {
     if (await db.SleepRecords.FindAsync(id) is SleepRecordModel item)
     {

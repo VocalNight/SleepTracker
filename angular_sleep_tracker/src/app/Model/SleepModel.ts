@@ -1,11 +1,11 @@
 export class SleepModel {
     public id: number;
     public date: Date;
-    public timeTaken: string;
+    public time: string;
 
-    constructor(id: number, date: Date, timeTaken: string) {
+    constructor(id: number, date: Date, time: string) {
         this.id = id;
         this.date = date;
-        this.timeTaken = timeTaken;
+        this.time = time;
     }
 }
