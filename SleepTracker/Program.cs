@@ -56,6 +56,7 @@ app.MapDelete("/sleepers/{id}", async ( int id, SleepContext db ) =>
 {
     if (await db.SleepRecords.FindAsync(id) is SleepRecordModel item)
     {
+        Console.WriteLine("removing");
         db.SleepRecords.Remove(item);
         await db.SaveChangesAsync();
         return Results.NoContent();

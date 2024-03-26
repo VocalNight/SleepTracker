@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
-import {MatTableModule} from '@angular/material/table';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatSelectModule} from '@angular/material/select';
+import {MatDividerModule} from '@angular/material/divider';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
+import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import { SleepModel } from '../../Model/SleepModel';
 import { SleepHttpService } from '../../Services/sleep-http.service';
 import { BehaviorSubject } from 'rxjs';
@@ -12,15 +14,24 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-main-view',
   standalone: true,
-  imports: [FormsModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatButtonModule, MatTableModule],
+  imports: [FormsModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatButtonModule, MatTableModule, MatDividerModule, MatPaginator, MatPaginatorModule],
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.css'
 })
-export class MainViewComponent implements OnInit {
+export class MainViewComponent implements OnInit, AfterViewInit {
 
-  sleepRecords = new BehaviorSubject([]);
   columnsToDisplay = ['id', 'date', 'time'];
   clickedRecord!: SleepModel;
+  dataSource = new MatTableDataSource<SleepModel>([]);
+  
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+
+  ngAfterViewInit() {
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+    } 
+  }
 
   constructor(private SleepHttp: SleepHttpService) {}
 
@@ -30,9 +41,23 @@ export class MainViewComponent implements OnInit {
 
   getRecords() {
     this.SleepHttp.getRecords('sleepers').subscribe({
-      next: records => this.sleepRecords.next(records),
+      next: records =>  {
+        this.dataSource = new MatTableDataSource(records);
+        this.dataSource.paginator = this.paginator;
+      },
       error: e => console.error("Api error", e)
     });;
   }
 
+  deleteRecord() {
+    if (this.clickedRecord) {
+      console.log("hi");
+      this.SleepHttp.deleteRow(this.clickedRecord.id, 'sleepers')
+        .subscribe({
+          next: result => this.getRecords(),
+          error: e => console.error("Api error", e)
+        })
+      
+    }
+  }
 }
