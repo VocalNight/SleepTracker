@@ -5,9 +5,14 @@
             <td mat-cell *matCellDef="let record"> {{record.id}} </td>
           </ng-container>
     
-          <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef> Date </th>
-            <td mat-cell *matCellDef="let record"> {{record.date}} </td>
+          <ng-container matColumnDef="timeStart">
+            <th mat-header-cell *matHeaderCellDef> Start time </th>
+            <td mat-cell *matCellDef="let record"> {{record.timeStart | date:'dd/MM/yy HH:mm'}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="timeEnd">
+            <th mat-header-cell *matHeaderCellDef> End time </th>
+            <td mat-cell *matCellDef="let record"> {{record.timeEnd | date:'dd/MM/yy HH:mm'}} </td>
           </ng-container>
     
           <ng-container matColumnDef="time">

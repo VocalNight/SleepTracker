@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatSelectModule} from '@angular/material/select';
@@ -9,18 +10,17 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import { SleepModel } from '../../Model/SleepModel';
 import { SleepHttpService } from '../../Services/sleep-http.service';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-main-view',
   standalone: true,
-  imports: [FormsModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatButtonModule, MatTableModule, MatDividerModule, MatPaginator, MatPaginatorModule],
+  imports: [FormsModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatButtonModule, MatTableModule, MatDividerModule, MatPaginator, MatPaginatorModule, CommonModule],
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.css'
 })
 export class MainViewComponent implements OnInit, AfterViewInit {
 
-  columnsToDisplay = ['id', 'date', 'time'];
+  columnsToDisplay = ['id', 'timeStart', 'timeEnd', 'time'];
   clickedRecord!: SleepModel;
   dataSource = new MatTableDataSource<SleepModel>([]);
   
