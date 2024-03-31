@@ -54,6 +54,29 @@ export class MainViewComponent implements OnInit, AfterViewInit {
     });;
   }
 
+  formatDate(date: Date): number {
+    return date.setHours(0,0,0,0);
+  }
+
+  onChangeDate() {
+    if (this.dateFieldEnd) {
+      let dateStart = 
+    
+
+    this.SleepHttp.getRecords('sleepers').subscribe({
+      next: (records: SleepModel[]) => {
+        this.dataSource = new MatTableDataSource(records.filter(
+          sleepRecord => 
+          this.formatDate(new Date(sleepRecord.timeStart)) >= this.formatDate(this.dateFieldStart) 
+            && this.formatDate(new Date(sleepRecord.timeStart)) <= this.formatDate(this.dateFieldEnd) 
+        ))
+        this.dataSource.paginator = this.paginator;
+      },
+      error: e => console.error("Api error", e)
+    })
+  }
+  }
+
   deleteRecord() {
     if (this.clickedRecord) {
       console.log("hi");
