@@ -59,9 +59,6 @@ export class MainViewComponent implements OnInit, AfterViewInit {
 
   formatTableDate(milliseconds: number) {
     let time = new Date(milliseconds);
-    console.log(milliseconds);
-    console.log(time);
-    console.log(moment(milliseconds).toDate())
     return time;
   }
 
@@ -73,14 +70,13 @@ export class MainViewComponent implements OnInit, AfterViewInit {
     let currSeconds = timer.get().seconds;
     let startDate = new Date();
     let endDate = new Date();
-    console.log(startDate.getTime());
     
     startDate.setSeconds(startDate.getSeconds() - (currSeconds));
     endDate.setSeconds(startDate.getSeconds() + (currSeconds));
 
     let timePassed = this.EditTimer(timer.get().hours.toString()) + ':' + this.EditTimer(timer.get().minutes.toString()) + ':' + this.EditTimer(timer.get().seconds.toString())
 
-    let sleep = new SleepModel(0, startDate.getMilliseconds(), endDate.getMilliseconds(), timePassed)
+    let sleep = new SleepModel(0, startDate.getTime(), endDate.getTime(), timePassed)
 
     this.SleepHttp.postItem( sleep, 'sleepers')
       .subscribe({
