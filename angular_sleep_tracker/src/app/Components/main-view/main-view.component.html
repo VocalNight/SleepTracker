@@ -82,14 +82,9 @@
     </mat-form-field>
   
     <mat-form-field>
-      <mat-label>End Date</mat-label>
-      <input id="endDate" class="form-control" 
-      required [(ngModel)]="sleepRecordModel.dateEnd" name="endDate" type="date" matInput>
-    </mat-form-field>
-  
-    <mat-form-field>
-      <mat-label>End Time</mat-label>
-      <input id="endTime" [(ngModel)]="sleepRecordModel.timeEnd" type="time" required name="endTime" matInput>
+      <mat-label>Duration (hours)</mat-label>
+      <input id="duration" class="form-control" 
+      required [(ngModel)]="sleepRecordModel.time" name="durantion" type="text" matInput>
     </mat-form-field>
   
     <button mat-raised-button color="primary">Add</button>

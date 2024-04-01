@@ -28,7 +28,7 @@ export class MainViewComponent implements OnInit, AfterViewInit {
 
   columnsToDisplay = ['id', 'timeStart', 'timeEnd', 'time'];
   clickedRecord!: SleepModel;
-  sleepRecordModel: SleepModelForm = new SleepModelForm(0, 0, 0, new Date(), new Date, '');
+  sleepRecordModel: SleepModelForm = new SleepModelForm(0, 0, new Date(), '');
   dataSource = new MatTableDataSource<SleepModel>([]);
   dateFieldStart: Date = new Date();
   dateFieldEnd: Date = new Date();
@@ -59,12 +59,26 @@ export class MainViewComponent implements OnInit, AfterViewInit {
     let startDate = this.sleepRecordModel.dateStart;
     let startTime = this.sleepRecordModel.timeStart;
 
-    let endDate = this.sleepRecordModel.dateEnd;
-    let endTime = this.sleepRecordModel.timeEnd;
+    let start = moment(startDate + " " + startTime, "YYYY-MM-DD HH:mm");
+    let end = moment(startDate + " " + startTime, "YYYY-MM-DD HH:mm");
 
-    let start = moment(startDate + " " + startTime, "YYYY-MM-DD HH:mm").valueOf();
-    let end = moment(endDate + " " + endTime, "YYYY-MM-DD HH:mm").valueOf();
+    end.add(this.sleepRecordModel.time, "hours");
+    let time = this.sleepRecordModel.time.length === 1 ? 
+      '0' + this.sleepRecordModel.time + ":00:00" : this.sleepRecordModel.time + ":00:00";
 
+    let sleep = new SleepModel(0, start.valueOf(), end.valueOf(), time);
+
+    this.SleepHttp.postItem( sleep, 'sleepers')
+      .subscribe({
+        next: (r) => {
+          this.getRecords();
+        },
+        error: (e) => {
+          console.error("post error", e)
+        }
+      })
+
+      this.changeView();
   }
 
   getRecords() {
