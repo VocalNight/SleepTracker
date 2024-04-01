@@ -12,11 +12,13 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {provideNativeDateAdapter} from '@angular/material/core';
+import { CdTimerComponent, CdTimerModule } from 'angular-cd-timer';
+import moment from 'moment';
 
 @Component({
   selector: 'app-main-view',
   standalone: true,
-  imports: [FormsModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatButtonModule, MatTableModule, MatDividerModule, MatPaginator, MatPaginatorModule, CommonModule, MatFormFieldModule, MatDatepickerModule],
+  imports: [FormsModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatButtonModule, MatTableModule, MatDividerModule, MatPaginator, MatPaginatorModule, CommonModule, MatFormFieldModule, MatDatepickerModule, CdTimerModule],
   providers: [provideNativeDateAdapter()],
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.css'
@@ -28,6 +30,7 @@ export class MainViewComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<SleepModel>([]);
   dateFieldStart: Date = new Date();
   dateFieldEnd: Date = new Date();
+  @ViewChild('basicTimer') timerModule: CdTimerModule | undefined;
   
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -54,14 +57,54 @@ export class MainViewComponent implements OnInit, AfterViewInit {
     });;
   }
 
+  formatTableDate(milliseconds: number) {
+    let time = new Date(milliseconds);
+    console.log(milliseconds);
+    console.log(time);
+    console.log(moment(milliseconds).toDate())
+    return time;
+  }
+
   formatDate(date: Date): number {
     return date.setHours(0,0,0,0);
   }
 
+  onTimerStop(timer: CdTimerComponent) {
+    let currSeconds = timer.get().seconds;
+    let startDate = new Date();
+    let endDate = new Date();
+    console.log(startDate.getTime());
+    
+    startDate.setSeconds(startDate.getSeconds() - (currSeconds));
+    endDate.setSeconds(startDate.getSeconds() + (currSeconds));
+
+    let timePassed = this.EditTimer(timer.get().hours.toString()) + ':' + this.EditTimer(timer.get().minutes.toString()) + ':' + this.EditTimer(timer.get().seconds.toString())
+
+    let sleep = new SleepModel(0, startDate.getMilliseconds(), endDate.getMilliseconds(), timePassed)
+
+    this.SleepHttp.postItem( sleep, 'sleepers')
+      .subscribe({
+        next: (r) => {
+          this.getRecords();
+        },
+        error: (e) => {
+          console.error("post error", e)
+        }
+      })
+
+    timer.reset();
+  }
+
+  EditTimer(time: string) {
+    console.log(time);
+    if (time.length === 1) {
+      return '0' + time;
+    }
+    return time;
+  }
+
   onChangeDate() {
     if (this.dateFieldEnd) {
-      let dateStart = 
-    
 
     this.SleepHttp.getRecords('sleepers').subscribe({
       next: (records: SleepModel[]) => {

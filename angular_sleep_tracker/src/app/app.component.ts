@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MainViewComponent } from './Components/main-view/main-view.component';
+
 
 @Component({
   selector: 'app-root',
@@ -12,4 +13,7 @@ import { MainViewComponent } from './Components/main-view/main-view.component';
 })
 export class AppComponent {
   title = 'angular_sleep_tracker';
+  
+  constructor() {
+  }
 }
