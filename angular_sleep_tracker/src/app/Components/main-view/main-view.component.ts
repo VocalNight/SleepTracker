@@ -14,6 +14,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { CdTimerComponent, CdTimerModule } from 'angular-cd-timer';
 import moment from 'moment';
+import { SleepModelForm } from '../../Model/SleepModelForm';
 
 @Component({
   selector: 'app-main-view',
@@ -27,11 +28,13 @@ export class MainViewComponent implements OnInit, AfterViewInit {
 
   columnsToDisplay = ['id', 'timeStart', 'timeEnd', 'time'];
   clickedRecord!: SleepModel;
+  sleepRecordModel!: SleepModelForm;
   dataSource = new MatTableDataSource<SleepModel>([]);
   dateFieldStart: Date = new Date();
   dateFieldEnd: Date = new Date();
+  newRecordEdit: boolean = false;
+
   @ViewChild('basicTimer') timerModule: CdTimerModule | undefined;
-  
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
@@ -45,6 +48,14 @@ export class MainViewComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getRecords();
+  }
+
+  changeView() {
+    this.newRecordEdit = !this.newRecordEdit;
+  }
+
+  onSubmit() { 
+
   }
 
   getRecords() {
