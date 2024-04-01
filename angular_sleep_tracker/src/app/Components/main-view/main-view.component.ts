@@ -28,7 +28,7 @@ export class MainViewComponent implements OnInit, AfterViewInit {
 
   columnsToDisplay = ['id', 'timeStart', 'timeEnd', 'time'];
   clickedRecord!: SleepModel;
-  sleepRecordModel!: SleepModelForm;
+  sleepRecordModel: SleepModelForm = new SleepModelForm(0, 0, 0, new Date(), new Date, '');
   dataSource = new MatTableDataSource<SleepModel>([]);
   dateFieldStart: Date = new Date();
   dateFieldEnd: Date = new Date();
@@ -55,6 +55,15 @@ export class MainViewComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() { 
+
+    let startDate = this.sleepRecordModel.dateStart;
+    let startTime = this.sleepRecordModel.timeStart;
+
+    let endDate = this.sleepRecordModel.dateEnd;
+    let endTime = this.sleepRecordModel.timeEnd;
+
+    let start = moment(startDate + " " + startTime, "YYYY-MM-DD HH:mm").valueOf();
+    let end = moment(endDate + " " + endTime, "YYYY-MM-DD HH:mm").valueOf();
 
   }
 
