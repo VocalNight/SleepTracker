@@ -1,0 +1,3 @@
+<cd-timer #basicTimer format="hms" [autoStart]="false"></cd-timer>
+<button mat-raised-button color="primary" (click)="basicTimer.start()">Start</button>
+<button mat-raised-button color="primary" (click)="onTimerStop(basicTimer)">Stop</button>
