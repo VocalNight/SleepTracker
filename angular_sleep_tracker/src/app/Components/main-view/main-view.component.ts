@@ -1,17 +1,16 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { provideNativeDateAdapter } from '@angular/material/core';
+
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+
 import { SleepModel } from '../../Model/SleepModel';
 import { SleepHttpService } from '../../Services/sleep-http.service';
-
-
-
-import { provideNativeDateAdapter } from '@angular/material/core';
 
 import { RecordAddComponent } from '../record-add/record-add.component';
 import { TimerComponent } from '../timer/timer.component';
@@ -40,11 +39,11 @@ export class MainViewComponent implements OnInit, AfterViewInit {
     }
   }
 
-  constructor(private SleepHttp: SleepHttpService) { }
-
   ngOnInit(): void {
     this.getRecords();
   }
+
+  constructor(private SleepHttp: SleepHttpService) { }
 
   addNewRecord(record: SleepModel) {
     this.SleepHttp.postItem(record, 'sleepers')

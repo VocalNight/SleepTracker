@@ -1,3 +1,12 @@
-<cd-timer #basicTimer format="hms" [autoStart]="false"></cd-timer>
-<button mat-raised-button color="primary" (click)="basicTimer.start()">Start</button>
-<button mat-raised-button color="primary" (click)="onTimerStop(basicTimer)">Stop</button>
+<div>
+    <label><h3>Use Timer</h3></label>
+</div>
+<div class="timerClass"> 
+    <div class="timerButtons">
+        <button mat-raised-button color="primary" (click)="basicTimer.start()">Start</button>
+        <button mat-raised-button color="warn" (click)="onTimerStop(basicTimer)">Stop</button>
+    </div>
+    <div class="timerCount">
+        <h3><cd-timer #basicTimer format="hms" [autoStart]="false"></cd-timer></h3>
+    </div>
+</div>

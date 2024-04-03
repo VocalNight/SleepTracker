@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { CdTimerComponent, CdTimerModule } from 'angular-cd-timer';
 import { SleepModel } from '../../Model/SleepModel';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-timer',
   standalone: true,
-  imports: [CdTimerModule],
+  imports: [CdTimerModule, MatButtonModule],
   templateUrl: './timer.component.html',
   styleUrl: './timer.component.css'
 })
@@ -27,9 +28,9 @@ export class TimerComponent {
 
     let sleep = new SleepModel(0, startDate.getTime(), endDate.getTime(), timePassed)
 
+    this.newTimerRecord.emit(sleep);
+
     timer.reset();
-
-
   }
 
   EditTimer(time: string) {
